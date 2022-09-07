@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JS TEST</title>
+        <style>
+            .hello {
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <p class="js-trans hello">helloWorld</p>
+        <script>
+            (function (factory) {
+                const App = factory();
+                App.Bootstrap.boot();
+            })(function () {
+                'use strict';
+                const translations = {
+                    cs_CZ: {
+                        helloWorld: 'Ahoj světe'
+                    }
+                };
+                const App = {};
+                App.Translations = {
+                    translate: function (locale, key) {
+                        return translations[locale][key];
+                    }
+                };
+                App.DOM = {
+                    translate: function () {
+                        const list = document.querySelectorAll('.js-trans');
+                        console.log(list);
+                        for (let i = 0; i < list.length; i++) {
+                            const elem = list[i];
+                            const subj = elem.textContent;
+                            console.log(subj);
+                            const done = App.Translations.translate('cs_CZ', subj);
+                            elem.textContent = done;
+                            console.log(done);
+                        }
+                    }
+                };
+                App.Bootstrap = {
+                    boot: function () {
+                        App.DOM.translate();
+                    }
+                };
+                return App;
+            });
+        </script>
+    </body>
+</html>
